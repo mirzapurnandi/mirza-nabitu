@@ -4,6 +4,7 @@
     - cd /var/www/html
     - php artisan optimize
     - php artisan migrate
+    - php artisan db:seed
 
     jika terjadi error, jalankan perintah ini
     - chown -R www-data:www-data storage
