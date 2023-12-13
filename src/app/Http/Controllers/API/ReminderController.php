@@ -28,9 +28,14 @@ class ReminderController extends Controller
         return $this->successResponse($result['result'], $result['code']);
     }
 
-    public function view(Request $request, $id)
+    public function view(Request $request)
     {
-        //
+        $result = $this->reminderService->getDataByID($request->id);
+        if ($result['status'] == false) {
+            return $this->errorResponse($result['error'], $result['message'], $result['code']);
+        }
+
+        return $this->successResponse($result['result'], $result['code']);
     }
 
     public function create(Request $request): JsonResponse
