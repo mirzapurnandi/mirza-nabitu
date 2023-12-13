@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('reminders', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('title');
             $table->text('description');
-            $table->string('remind_at');
-            $table->string('event_at');
+            $table->integer('remind_at');
+            $table->integer('event_at');
         });
     }
 
