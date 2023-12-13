@@ -71,9 +71,34 @@ class ReminderController extends Controller
         return $this->successResponse($result['result'], $result['code']);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request): JsonResponse
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'title' => 'nullable|string',
+            'description' => 'nullable|string',
+            'remind_at' => 'nullable|numeric',
+            'event_at' => 'nullable|numeric'
+        ], [
+            'remind_at.numeric' => 'remind_ad harus angka',
+            'event_at.numeric' => 'event_at harus angka'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse('Validation Error.', $validator->errors(), 422);
+        }
+
+        $result = $this->reminderService->updateData([
+            'title' => $request->title,
+            'description' => $request->description,
+            'remind_at' => $request->remind_at,
+            'event_at' => $request->event_at
+        ], $request->id);
+
+        if ($result['status'] == false) {
+            return $this->errorResponse($result['error'], $result['message'], $result['code']);
+        }
+
+        return $this->successResponse($result['result'], $result['code']);
     }
 
     public function destroy(Request $request, $id)

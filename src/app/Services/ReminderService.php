@@ -103,4 +103,39 @@ class ReminderService
             'result' => $result
         ];
     }
+
+    public function updateData($datas, $id)
+    {
+        $status = false;
+        $code = 200;
+        $result = [];
+        $error = "";
+        try {
+            $result = Reminder::findOrFail($id);
+            if ($datas['title'] != "") $result->title = $datas['title'];
+            if ($datas['description']  != "") $result->description = $datas['description'];
+            if ($datas['remind_at'] != "") $result->remind_at = $datas['remind_at'];
+            if ($datas['event_at'] != "") $result->event_at = $datas['event_at'];
+            $result->save();
+
+            $message = 'Succesfully update Reminders';
+            $status = true;
+        } catch (\Throwable $e) {
+            $code = $e->getCode();
+            $message = $e->getMessage();
+            $error = "Unsuccessfully...";
+            $result = [
+                'get_file' => $e->getFile(),
+                'get_line' => $e->getLine()
+            ];
+        }
+
+        return [
+            'code' => $code,
+            'status' => $status,
+            'message' => $message,
+            'error' => $error,
+            'result' => $result
+        ];
+    }
 }
