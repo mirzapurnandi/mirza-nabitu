@@ -16,9 +16,16 @@ class ReminderController extends Controller
         $this->reminderService = $reminderService;
     }
 
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
-        //
+        $limit = $request->limit ? $request->limit : 10;
+
+        $result = $this->reminderService->listData($limit);
+        if ($result['status'] == false) {
+            return $this->errorResponse($result['error'], $result['message'], $result['code']);
+        }
+
+        return $this->successResponse($result['result'], $result['code']);
     }
 
     public function view(Request $request, $id)
