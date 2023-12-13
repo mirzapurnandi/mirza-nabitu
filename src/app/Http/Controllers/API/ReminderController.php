@@ -101,8 +101,14 @@ class ReminderController extends Controller
         return $this->successResponse($result['result'], $result['code']);
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request)
     {
-        //
+        $result = $this->reminderService->deleteData($request->id);
+
+        if ($result['status'] == false) {
+            return $this->errorResponse($result['error'], $result['message'], $result['code']);
+        }
+
+        return $this->successResponse($result['result'], $result['code']);
     }
 }

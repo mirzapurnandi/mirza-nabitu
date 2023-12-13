@@ -138,4 +138,39 @@ class ReminderService
             'result' => $result
         ];
     }
+
+    public function deleteData($id)
+    {
+        $status = false;
+        $code = 200;
+        $result = [];
+        $error = "";
+        try {
+            $reminder = Reminder::where('id', $id)->first();
+            if ($reminder) {
+                $reminder->delete();
+                $status = true;
+                $message = 'Successfully delete Reminder';
+            } else {
+                $code = 404;
+                $message = 'Data Reminder tidak ditemukan';
+            }
+        } catch (\Throwable $e) {
+            $code = $e->getCode();
+            $message = $e->getMessage();
+            $error = "Unsuccessfully...";
+            $result = [
+                'get_file' => $e->getFile(),
+                'get_line' => $e->getLine()
+            ];
+        }
+
+        return [
+            'code' => $code,
+            'status' => $status,
+            'message' => $message,
+            'error' => $error,
+            'result' => $result
+        ];
+    }
 }
