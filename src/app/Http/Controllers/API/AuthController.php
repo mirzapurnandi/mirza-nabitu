@@ -39,4 +39,13 @@ class AuthController extends Controller
 
         return $this->successResponse($result['result'], $result['code']);
     }
+
+    public function refreshToken(Request $request): JsonResponse
+    {
+        $result = $this->authService->userRefreshToken($request);
+        if ($result['status'] == false) {
+            return $this->errorResponse($result['error'], $result['message'], $result['code']);
+        }
+        return $this->successResponse($result['result'], $result['code']);
+    }
 }

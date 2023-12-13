@@ -12,3 +12,7 @@ Route::get('/', function () {
 });
 
 Route::post('session', [AuthController::class, 'login']);
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::put('session', [AuthController::class, 'refreshToken']);
+});
