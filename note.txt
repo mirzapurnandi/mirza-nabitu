@@ -17,5 +17,7 @@ docker exec -it laravel_app php artisan route:cache
 docker exec -it laravel_app php artisan migrate
 docker exec -it laravel_app chmod -R 775 storage/ bootstrap/
 
+Unit Testing
+docker exec -it laravel_app php artisan test --testsuite=Unit --stop-on-failure
 
 - Buka chrome http://localhost:2345
