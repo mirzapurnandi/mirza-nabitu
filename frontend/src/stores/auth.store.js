@@ -25,7 +25,7 @@ const actions = {
                             root: true,
                         });
                     } else {
-                        commit("SET_ERRORS", response.data.data, {
+                        commit("SET_ERRORS", response.data.msg, {
                             root: true,
                         });
                     }
@@ -33,7 +33,9 @@ const actions = {
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    commit("SET_ERRORS", error.response.data, { root: true });
+                    commit("SET_ERRORS", error.response.data.msg, {
+                        root: true,
+                    });
                 });
         });
     },
