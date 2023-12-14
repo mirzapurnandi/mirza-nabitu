@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Reminder;
 
 class ReminderApiTest extends TestCase
 {
@@ -60,5 +61,65 @@ class ReminderApiTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonStructure(["data" => ['reminders', 'limit']]);
+    }
+
+    public function testUserCanViewReminder()
+    {
+        $user = User::factory()->create();
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $reminder = Reminder::factory()->create();
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get('/api/reminders/' . $reminder->id);
+
+        $response->assertStatus(200)
+            ->assertJson(["ok" => true, "data" => ['id' => $reminder->id, 'title' => $reminder->title]]);
+    }
+
+    public function testUserCanUpdateReminder()
+    {
+        $user = User::factory()->create();
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $reminder = Reminder::factory()->create();
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->putJson('/api/reminders/' . $reminder->id, [
+            'title' => 'Meeting with Wewe edit 6',
+            'description' => 'Discuss about new project related to new system again edit 6',
+            'remind_at' => 1901246768,
+            'event_at' => 1901223506,
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                "ok" => true,
+                "data" => [
+                    'id' => $reminder->id,
+                    'title' => 'Meeting with Wewe edit 6',
+                    'description' => 'Discuss about new project related to new system again edit 6',
+                    'remind_at' => 1901246768,
+                    'event_at' => 1901223506,
+                ]
+            ]);
+    }
+
+    public function testUserCanDeleteReminder()
+    {
+        $user = User::factory()->create();
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $reminder = Reminder::factory()->create();
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->delete('/api/reminders/' . $reminder->id);
+
+        $response->assertStatus(200);
+
+        $this->deleteJson($reminder);
     }
 }
