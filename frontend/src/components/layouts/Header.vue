@@ -14,8 +14,8 @@
                 </ul>
 
                 <div class="text-end">
-                    <router-link :to="{ name: 'login' }" class="btn btn-outline-light me-2">
-                        Login
+                    <router-link :to="{ name: 'home' }" class="btn btn-outline-light me-2">
+                        Logout
                     </router-link>
                 </div>
             </div>
