@@ -14,9 +14,9 @@
                 </ul>
 
                 <div class="text-end">
-                    <router-link :to="{ name: 'home' }" class="btn btn-outline-light me-2">
+                    <a href="javascript:void(0)" @click="logout" class="btn btn-outline-light me-2">
                         Logout
-                    </router-link>
+                    </a>
                 </div>
             </div>
         </div>
@@ -24,7 +24,18 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
-    //
+    methods: {
+        ...mapActions('auth', ['signOut']),
+
+        logout(e) {
+            e.preventDefault();
+            this.signOut().then(() => {
+                this.$router.go('/login');
+            });
+
+        },
+    },
 }
 </script>
