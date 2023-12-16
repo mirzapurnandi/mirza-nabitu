@@ -76,6 +76,8 @@ class Handler extends ExceptionHandler
             return $this->errorResponse('ERR_INVALID_ACCESS_TOKEN', 'invalid access token', Response::HTTP_UNAUTHORIZED);
         } else if ($exception instanceof ArgumentCountError) {
             return $this->errorResponse('HTTP_REQUEST_TIMEOUT', 'Argument tidak lengkap', Response::HTTP_REQUEST_TIMEOUT);
+        } else {
+            return $this->errorResponse('ERR_INVALID_ACCESS_TOKEN', 'invalid token', Response::HTTP_UNAUTHORIZED);
         }
 
         if (env('APP_DEBUG', false)) {

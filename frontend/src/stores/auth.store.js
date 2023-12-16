@@ -1,4 +1,5 @@
 import api from "../api.js";
+import apiAuth from "../apiAuth.js";
 
 const actions = {
     submit({ commit }, payload) {
@@ -7,9 +8,6 @@ const actions = {
             root: true,
         });
         commit("ASSIGN_USER_AUTH", null, {
-            root: true,
-        });
-        commit("SET_PROCESSING", true, {
             root: true,
         });
 
@@ -36,6 +34,27 @@ const actions = {
                     commit("SET_ERRORS", error.response.data.msg, {
                         root: true,
                     });
+                });
+        });
+    },
+
+    signOut({ commit }) {
+        return new Promise((resolve, reject) => {
+            apiAuth
+                .post("/session/logout")
+                .then(() => {
+                    localStorage.setItem("token", null);
+                    commit("SET_TOKEN", null, {
+                        root: true,
+                    });
+                    resolve();
+                })
+                .catch(() => {
+                    localStorage.setItem("token", null);
+                    commit("SET_TOKEN", null, {
+                        root: true,
+                    });
+                    resolve();
                 });
         });
     },
