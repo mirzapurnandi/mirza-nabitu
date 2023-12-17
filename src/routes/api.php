@@ -23,4 +23,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('reminders/{id}', [ReminderController::class, 'view'])->middleware('ability:' . TokenAbility::ACCESS_API->value);
     Route::put('reminders/{id}', [ReminderController::class, 'update'])->middleware('ability:' . TokenAbility::ACCESS_API->value);
     Route::delete('reminders/{id}', [ReminderController::class, 'destroy'])->middleware('ability:' . TokenAbility::ACCESS_API->value);
+
+    //optional
+    Route::get('session/profile', [AuthController::class, 'profile'])->middleware('ability:' . TokenAbility::ACCESS_API->value);
+    Route::post('session/logout', [AuthController::class, 'logout'])->middleware('ability:' . TokenAbility::ACCESS_API->value);
 });

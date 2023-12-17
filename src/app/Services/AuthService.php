@@ -106,4 +106,30 @@ class AuthService
             'result' => $result
         ];
     }
+
+    public function userProfile()
+    {
+        $status = false;
+        $code = 200;
+        $result = [];
+        try {
+            $message = "Get data Profile";
+            $result = Auth::user();
+            $status = true;
+        } catch (\Throwable $e) {
+            $code = $e->getCode();
+            $message = $e->getMessage();
+            $result = [
+                'get_file' => $e->getFile(),
+                'get_line' => $e->getLine()
+            ];
+        }
+
+        return [
+            'code' => $code,
+            'status' => $status,
+            'message' => $message,
+            'result' => $result
+        ];
+    }
 }

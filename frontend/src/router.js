@@ -1,7 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from "./store";
+
 import Home from "./components/pages/Home.vue";
 import Login from "./components/pages/Login.vue";
-import store from "./store";
+
+import IndexReminder from "./components/pages/reminder/Index.vue";
+import DataReminder from "./components/pages/reminder/Data.vue";
 
 const routes = [
     {
@@ -18,6 +22,26 @@ const routes = [
             title: `Beranda`,
             requiresAuth: true,
         },
+    },
+
+    {
+        path: "/reminder",
+        component: IndexReminder,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: "",
+                name: "reminder.data",
+                component: DataReminder,
+                meta: { title: "Data Reminder" },
+            },
+            /* {
+                path: "/add",
+                name: "product.add",
+                component: AddProduct,
+                meta: { title: "Tambah Menu Cafe" },
+            }, */
+        ],
     },
 ];
 
