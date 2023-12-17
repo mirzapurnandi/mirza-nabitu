@@ -1,12 +1,24 @@
 import axios from "axios";
-const url = "http://localhost:2345/api";
+import store from "./store.js";
+
+const url = "http://localhost:3456/api";
 const api = axios.create({
     baseURL: url,
     headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
 });
+
+api.interceptors.request.use(
+    function (config) {
+        const token = store.state.token;
+        if (token) config.headers.Authorization = `Bearer ${token}`;
+        return config;
+    },
+    function (error) {
+        return Promise.reject(error);
+    }
+);
 
 export default api;

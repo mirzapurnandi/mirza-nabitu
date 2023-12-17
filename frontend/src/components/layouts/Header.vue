@@ -9,7 +9,9 @@
                         </router-link>
                     </li>
                     <li>
-                        <a href="#" class="nav-link px-2 text-white">About</a>
+                        <router-link :to="{ name: 'reminder.data' }" class="nav-link px-2 text-secondary">
+                            Reminder
+                        </router-link>
                     </li>
                 </ul>
 

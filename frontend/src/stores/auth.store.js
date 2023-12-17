@@ -19,6 +19,10 @@ const actions = {
                             "token",
                             response.data.data.access_token
                         );
+                        localStorage.setItem(
+                            "refresh_token",
+                            response.data.data.refresh_token
+                        );
                         commit("SET_TOKEN", response.data.data.access_token, {
                             root: true,
                         });

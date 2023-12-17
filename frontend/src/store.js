@@ -2,11 +2,13 @@ import { createApp } from "vue";
 import Vuex from "vuex";
 
 import auth from "./stores/auth.store";
+import reminder from "./stores/reminder.store";
 createApp({}).use(Vuex);
 
 const store = new Vuex.Store({
     modules: {
         auth,
+        reminder,
     },
 
     state: {
