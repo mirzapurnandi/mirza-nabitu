@@ -19,7 +19,6 @@ const actions = {
                     commit("SET_TOKEN", response, {
                         root: true,
                     });
-                    resolve();
                 });
             });
             await apiAuth.get(`/reminders/${payload}`).then((response) => {
@@ -35,7 +34,6 @@ const actions = {
                     commit("SET_TOKEN", response, {
                         root: true,
                     });
-                    resolve();
                 });
             });
             await apiAuth

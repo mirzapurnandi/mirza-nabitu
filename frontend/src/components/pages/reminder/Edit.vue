@@ -18,19 +18,24 @@
                     <span class="error invalid-feedback" v-if="errors.description">{{ errors.description[0] }}</span>
                 </div>
             </div>
+
             <div class="mb-3 row">
-                <label for="remind_at" class="col-sm-2 col-form-label">Reminder At</label>
+                <label for="remind_at" class="col-sm-2 col-form-label">Remind At</label>
                 <div class="col-sm-10">
                     <input type="date" class="form-control" :class="{ 'is-invalid': errors.remind_at }" name="remind_at"
-                        value="" v-model="remind_at" @input="updateRemindAt">
+                        :value="reminder.remind_at ? new Date(reminder.remind_at * 1000).toISOString().substr(0, 10) : ''"
+                        v-model="remind_at" @input="updateRemindAt">
                     <span class="error invalid-feedback" v-if="errors.remind_at">{{ errors.remind_at[0] }}</span>
                 </div>
             </div>
+
+
             <div class="mb-3 row">
                 <label for="event_at" class="col-sm-2 col-form-label">Event At</label>
                 <div class="col-sm-10">
                     <input type="date" class="form-control" :class="{ 'is-invalid': errors.event_at }" name="event_at"
-                        value="" v-model="event_at" @input="updateEventAt">
+                        :value="reminder.event_at ? new Date(reminder.event_at * 1000).toISOString().substr(0, 10) : ''"
+                        v-model="event_at" @input="updateEventAt">
                     <span class="error invalid-feedback" v-if="errors.event_at">{{ errors.event_at[0] }}</span>
                 </div>
             </div>
@@ -52,10 +57,10 @@ export default {
     name: 'EditReminder',
 
     created() {
-        this.editReminder(this.$route.params.id).then((res) => {
+        this.viewReminder(this.$route.params.id).then((res) => {
             this.reminder = {
                 title: res.data.title,
-                description: res.data.title,
+                description: res.data.description,
                 remind_at: res.data.remind_at,
                 event_at: res.data.event_at,
             }
@@ -84,12 +89,12 @@ export default {
             //
         },
         updateRemindAt() {
-            const dateObject = new Date(this.remind_at);
-            this.reminder.remind_at = dateObject.getTime() / 1000; // Dibagi 1000 untuk mendapatkan detik
+            const dateObject = new Date(this.remind_at).getTime() / 1000;
+            this.reminder.remind_at = dateObject;
         },
         updateEventAt() {
-            const dateObject = new Date(this.event_at);
-            this.reminder.event_at = dateObject.getTime() / 1000; // Dibagi 1000 untuk mendapatkan detik
+            const dateObject = new Date(this.event_at).getTime() / 1000;
+            this.reminder.event_at = dateObject;
         },
     }
 }
