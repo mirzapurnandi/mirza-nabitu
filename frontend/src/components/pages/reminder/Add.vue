@@ -36,7 +36,12 @@
             </div>
         </div>
         <div class="card-footer">
-            <button type="button" class="btn btn-primary" @click.prevent="submit">Tambah</button>
+            <button type="button" class="btn btn-primary" @click.prevent="submit" :disabled="this.processing">
+                <div class="spinner-border spinner-border-sm" role="status" v-if="this.processing">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                Tambah
+            </button>
         </div>
     </div>
 </template>
@@ -59,7 +64,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['errors']),
+        ...mapState(['errors', 'processing']),
     },
 
     methods: {
