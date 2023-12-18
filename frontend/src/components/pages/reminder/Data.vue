@@ -2,6 +2,7 @@
     <div class="card border-0 rounded shadow">
         <h5 class="card-header">Reminder List</h5>
         <div class="card-body">
+            <router-link :to="{ name: 'reminder.add' }" class="btn btn-primary btn-sm"> Create </router-link>
             <table class="table table-striped">
                 <thead>
                     <tr>

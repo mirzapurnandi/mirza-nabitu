@@ -12,6 +12,7 @@ const store = new Vuex.Store({
     },
 
     state: {
+        processing: false,
         token: localStorage.getItem("token"),
         errors: [],
     },
@@ -23,6 +24,9 @@ const store = new Vuex.Store({
     },
 
     mutations: {
+        SET_PROCESSING(state, payload) {
+            state.processing = payload;
+        },
         SET_TOKEN(state, payload) {
             state.token = payload;
         },
