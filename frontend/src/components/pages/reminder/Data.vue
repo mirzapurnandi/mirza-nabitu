@@ -22,7 +22,9 @@
                         <td>{{ val.remind_at }}</td>
                         <td>{{ val.event_at }}</td>
                         <td>
-                            edit &nbsp;
+                            <router-link :to="{ name: 'reminder.edit', params: { id: val.id } }"
+                                class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i></router-link>
+                            &nbsp;&nbsp;
                             <button class="btn btn-danger btn-sm" @click="deleteReminder(val.id)"><i
                                     class="fa fa-trash"></i></button>
                         </td>

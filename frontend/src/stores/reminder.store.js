@@ -12,6 +12,22 @@ const mutations = {
 };
 
 const actions = {
+    viewReminder({ commit }, payload) {
+        return new Promise(async (resolve, reject) => {
+            await getProfile.profile().catch(async () => {
+                await apiRefresh.refresh().then((response) => {
+                    commit("SET_TOKEN", response, {
+                        root: true,
+                    });
+                    resolve();
+                });
+            });
+            await apiAuth.get(`/reminders/${payload}`).then((response) => {
+                resolve(response.data);
+            });
+        });
+    },
+
     getReminder({ commit }) {
         return new Promise(async (resolve, reject) => {
             await getProfile.profile().catch(async () => {
