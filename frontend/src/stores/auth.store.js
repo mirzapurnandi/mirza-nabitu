@@ -1,17 +1,28 @@
 import api from "../api.js";
 import apiAuth from "../apiAuth.js";
 
+const state = () => ({
+    error_message: "",
+});
+
+const mutations = {
+    ERROR_MESSAGE(state, payload) {
+        state.error_message = payload;
+    },
+    CLEAR_ERROR_MESSAGE(state) {
+        state.error_message = "";
+    },
+};
+
 const actions = {
     submit({ commit }, payload) {
         localStorage.setItem("token", null);
         commit("SET_TOKEN", null, {
             root: true,
         });
-        commit("ASSIGN_USER_AUTH", null, {
-            root: true,
-        });
 
         return new Promise((resolve, reject) => {
+            commit("SET_PROCESSING", true, { root: true });
             api.post("/session", payload)
                 .then((response) => {
                     if (response.data.ok === true) {
@@ -31,13 +42,22 @@ const actions = {
                             root: true,
                         });
                     }
-
+                    commit("SET_PROCESSING", false, { root: true });
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    commit("SET_ERRORS", error.response.data.msg, {
-                        root: true,
-                    });
+                    console.log(error.response);
+                    if (error.response.status === 422) {
+                        commit("SET_ERRORS", error.response.data.msg, {
+                            root: true,
+                        });
+                    } else if (error.response.status === 401) {
+                        commit("ERROR_MESSAGE", error.response.data.msg);
+                    } else {
+                        commit("ERROR_MESSAGE", "Server Error");
+                    }
+
+                    commit("SET_PROCESSING", false, { root: true });
                 });
         });
     },
@@ -66,5 +86,7 @@ const actions = {
 
 export default {
     namespaced: true,
+    state,
+    mutations,
     actions,
 };
