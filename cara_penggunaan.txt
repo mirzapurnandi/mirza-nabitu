@@ -1,4 +1,4 @@
-# Menjalankan Docker
+# Menjalankan Docker untuk backend
 - docker-compose up -d
 - docker exec -it laravel_app bash
     - cd /var/www/html
@@ -21,4 +21,10 @@
 Unit Testing
 docker exec -it laravel_app php artisan test --testsuite=Unit --stop-on-failure
 
-- Buka chrome http://localhost:2345
+- Buka chrome http://localhost:3456
+
+
+# Menjalankan VueJs
+- cd frontend/
+- npm install
+- npm run dev
