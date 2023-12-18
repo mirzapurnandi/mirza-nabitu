@@ -40,7 +40,6 @@ export const apiRefresh = {
 export const getProfile = {
     async profile() {
         const datas = await apiProfile.get("/session/profile");
-        // console.log(datas);
         return datas.data;
     },
 };
