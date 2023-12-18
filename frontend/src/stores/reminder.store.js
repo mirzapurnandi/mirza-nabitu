@@ -42,25 +42,25 @@ const actions = {
         });
     },
 
-    /* createProduct({ commit }, payload) {
+    createReminder({ commit }, payload) {
         commit("SET_PROCESSING", true, { root: true });
         return new Promise((resolve, reject) => {
             apiAuth
-                .post("/product/insert", payload)
+                .post("/reminders", payload)
                 .then((response) => {
                     commit("CLEAR_ERRORS", "", { root: true });
                     resolve(response.data);
                 })
                 .catch((error) => {
                     if (error.response.status == 422) {
-                        commit("SET_ERRORS", error.response.data.result, {
+                        commit("SET_ERRORS", error.response.data.data, {
                             root: true,
                         });
                     }
                 });
             commit("SET_PROCESSING", false, { root: true });
         });
-    }, */
+    },
 };
 
 export default {
