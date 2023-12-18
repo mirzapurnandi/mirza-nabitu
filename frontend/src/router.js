@@ -7,6 +7,7 @@ import Login from "./components/pages/Login.vue";
 import IndexReminder from "./components/pages/reminder/Index.vue";
 import DataReminder from "./components/pages/reminder/Data.vue";
 import AddReminder from "./components/pages/reminder/Add.vue";
+import EditReminder from "./components/pages/reminder/Edit.vue";
 
 const routes = [
     {
@@ -37,10 +38,16 @@ const routes = [
                 meta: { title: "Data Reminder" },
             },
             {
-                path: "/add",
+                path: "add",
                 name: "reminder.add",
                 component: AddReminder,
                 meta: { title: "Create Reminder" },
+            },
+            {
+                path: "edit/:id",
+                name: "reminder.edit",
+                component: EditReminder,
+                meta: { title: "Edit Reminder" },
             },
         ],
     },
