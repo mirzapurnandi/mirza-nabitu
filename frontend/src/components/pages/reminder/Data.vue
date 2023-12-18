@@ -11,7 +11,7 @@
                         <th>Description</th>
                         <th>Reminder At</th>
                         <th>Event At</th>
-                        <th style="width: 40px"></th>
+                        <th style="width: 100px"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -22,7 +22,9 @@
                         <td>{{ val.remind_at }}</td>
                         <td>{{ val.event_at }}</td>
                         <td>
-                            edit | del
+                            edit &nbsp;
+                            <button class="btn btn-danger btn-sm" @click="deleteReminder(val.id)"><i
+                                    class="fa fa-trash"></i></button>
                         </td>
                     </tr>
                 </tbody>
@@ -51,7 +53,13 @@ export default {
         }),
     },
     methods: {
-        ...mapActions('reminder', ['getReminder']),
+        ...mapActions('reminder', ['getReminder', 'removeReminder']),
+
+        deleteReminder(id) {
+            this.removeReminder(id).then(() => {
+                this.$router.go({ name: 'reminder.data' });
+            })
+        }
     }
 }
 </script>

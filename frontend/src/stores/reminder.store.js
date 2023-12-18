@@ -57,7 +57,6 @@ const actions = {
                 .then((response) => {
                     commit("CLEAR_ERRORS", "", { root: true });
                     resolve(response.data);
-                    return true;
                 })
                 .catch((error) => {
                     if (error.response.status == 422) {
@@ -65,9 +64,23 @@ const actions = {
                             root: true,
                         });
                     }
-                    return false;
                 });
             commit("SET_PROCESSING", false, { root: true });
+        });
+    },
+
+    removeReminder({ commit }, payload) {
+        return new Promise(async (resolve, reject) => {
+            await getProfile.profile().catch(async () => {
+                await apiRefresh.refresh().then((response) => {
+                    commit("SET_TOKEN", response, {
+                        root: true,
+                    });
+                });
+            });
+            await apiAuth.delete(`/reminders/${payload}`).then((response) => {
+                resolve(response.data);
+            });
         });
     },
 };
