@@ -2,12 +2,17 @@ import apiAuth from "../apiAuth.js";
 import { apiRefresh, getProfile } from "../apiRefresh.js";
 
 const state = () => ({
+    id: "",
     reminder: [],
 });
 
 const mutations = {
     ASSIGN_DATA(state, payload) {
         state.reminder = payload;
+    },
+
+    SET_ID_UPDATE(state, payload) {
+        state.id = payload;
     },
 };
 
@@ -68,6 +73,34 @@ const actions = {
 
             await apiAuth
                 .post("/reminders", payload)
+                .then((response) => {
+                    commit("CLEAR_ERRORS", "", { root: true });
+                    resolve(response.data);
+                })
+                .catch((error) => {
+                    if (error.response.status == 422) {
+                        commit("SET_ERRORS", error.response.data.msg, {
+                            root: true,
+                        });
+                    }
+                });
+            commit("SET_PROCESSING", false, { root: true });
+        });
+    },
+
+    updateReminder({ commit, state }, payload) {
+        commit("SET_PROCESSING", true, { root: true });
+        return new Promise(async (resolve, reject) => {
+            await getProfile.profile().catch(async () => {
+                await apiRefresh.refresh().then((response) => {
+                    commit("SET_TOKEN", response, {
+                        root: true,
+                    });
+                });
+            });
+
+            await apiAuth
+                .put(`/reminders/${state.id}`, payload)
                 .then((response) => {
                     commit("CLEAR_ERRORS", "", { root: true });
                     resolve(response.data);

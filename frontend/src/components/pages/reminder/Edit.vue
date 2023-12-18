@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapMutations, mapState } from 'vuex'
 export default {
     name: 'EditReminder',
 
@@ -64,6 +64,7 @@ export default {
                 remind_at: res.data.remind_at,
                 event_at: res.data.event_at,
             }
+            this.SET_ID_UPDATE(this.$route.params.id)
         })
     },
     data() {
@@ -83,10 +84,13 @@ export default {
     },
 
     methods: {
-        ...mapActions('reminder', ['viewReminder']),
+        ...mapActions('reminder', ['viewReminder', 'updateReminder']),
+        ...mapMutations('reminder', ['SET_ID_UPDATE']),
 
         submit() {
-            //
+            this.updateReminder(this.reminder).then(() => {
+                this.$router.push({ name: 'reminder.data' });
+            })
         },
         updateRemindAt() {
             const dateObject = new Date(this.remind_at).getTime() / 1000;
